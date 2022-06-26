@@ -8,6 +8,9 @@ import lk.ijse.pos.POS.util.GeneratedIdentificationDto;
 import lk.ijse.pos.POS.util.Generator;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -31,21 +34,32 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String findCustomer(String id) {
-        return null;
+        return customerRepo.findById(id).toString();
     }
 
     @Override
-    public String updateCustomer(CustomerRequestDto dto, String Id) {
-        return null;
+    public String updateCustomer(CustomerRequestDto dto, String id) {
+        Optional<Customer> customerRecord = customerRepo.findById(id);
+        if (customerRecord.isPresent()){
+            Customer customer = customerRecord.get();
+            customer.setName(dto.getName());
+            customer.setAddress(dto.getAddress());
+            customer.setSalary(dto.getSalary());
+            return "Updated! ( "+(customerRepo.save(customer)).getId()+" )";
+        }else{
+            return "Empty Result";
+        }
+
     }
 
     @Override
     public String deleteCustomer(String id) {
-        return null;
+        customerRepo.deleteById(id);
+        return "Deleted ! ( "+id+" )";
     }
 
     @Override
-    public String listAllCustomers() {
-        return null;
+    public List<Customer> listAllCustomers() {
+        return customerRepo.findAll();
     }
 }
