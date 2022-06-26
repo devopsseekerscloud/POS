@@ -21,9 +21,9 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<StandardResponse> saveCustomer(@RequestBody CustomerRequestDto dto) {
+        customerService.saveCustomer(dto);
         return new ResponseEntity<>(
-                new StandardResponse(201, "Customer Saved !",
-                        customerService.saveCustomer(dto)),
+                new StandardResponse(201, "Customer Saved !",null),
                 HttpStatus.CREATED
         );
     }
@@ -40,19 +40,20 @@ public class CustomerController {
     @PutMapping
     public ResponseEntity<StandardResponse> updateCustomer(
             @RequestParam String id,
-            @RequestBody CustomerRequestDto dto) {
+            @RequestBody CustomerRequestDto dto) throws ClassNotFoundException {
+        customerService.updateCustomer(dto, id);
         return new ResponseEntity<>(
-                new StandardResponse(201, "Customer Updated !",
-                        customerService.updateCustomer(dto, id)),
+                new StandardResponse(201, "Customer Updated !",null),
                 HttpStatus.CREATED
         );
     }
 
     @DeleteMapping
     public ResponseEntity<StandardResponse> deleteCustomer(@RequestParam String id) {
+        customerService.deleteCustomer(id);
         return new ResponseEntity<>(
                 new StandardResponse(204, "Customer Deleted !",
-                        customerService.deleteCustomer(id)),
+                        null),
                 HttpStatus.NO_CONTENT
         );
     }
