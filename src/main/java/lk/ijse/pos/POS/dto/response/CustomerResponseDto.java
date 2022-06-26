@@ -1,4 +1,4 @@
-package lk.ijse.pos.POS.dto.request;
+package lk.ijse.pos.POS.dto.response;
 
 import lombok.*;
 
@@ -7,7 +7,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerRequestDto {
+public class CustomerResponseDto {
+
+    private String id;
     private String name;
     private String address;
     private double salary;
