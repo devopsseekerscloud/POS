@@ -29,25 +29,41 @@ public class CustomerController {
     }
 
     @GetMapping
-    public String findCustomer(@RequestParam String id) {
-        return customerService.findCustomer(id);
+    public ResponseEntity<StandardResponse> findCustomer(@RequestParam String id) {
+        return new ResponseEntity<>(
+                new StandardResponse(200, "Customer Result !",
+                        customerService.findCustomer(id)),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping
-    public String updateCustomer(
+    public ResponseEntity<StandardResponse> updateCustomer(
             @RequestParam String id,
             @RequestBody CustomerRequestDto dto) {
-        return customerService.updateCustomer(dto, id);
+        return new ResponseEntity<>(
+                new StandardResponse(201, "Customer Updated !",
+                        customerService.updateCustomer(dto, id)),
+                HttpStatus.CREATED
+        );
     }
 
     @DeleteMapping
-    public String deleteCustomer(@RequestParam String id) {
-        return customerService.deleteCustomer(id);
+    public ResponseEntity<StandardResponse> deleteCustomer(@RequestParam String id) {
+        return new ResponseEntity<>(
+                new StandardResponse(204, "Customer Deleted !",
+                        customerService.deleteCustomer(id)),
+                HttpStatus.NO_CONTENT
+        );
     }
 
     @GetMapping(path = "/list")
-    public List listAllCustomers() {
-        return customerService.listAllCustomers();
+    public ResponseEntity<StandardResponse> listAllCustomers() {
+        return new ResponseEntity<>(
+                new StandardResponse(200, "Customer List !",
+                        customerService.listAllCustomers()),
+                HttpStatus.OK
+        );
     }
 
 }
