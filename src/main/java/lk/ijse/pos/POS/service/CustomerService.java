@@ -12,7 +12,7 @@ public interface CustomerService {
 
     public CustomerResponseDto findCustomer(String id);
 
-    public void updateCustomer(CustomerRequestDto dto, String Id) throws ClassNotFoundException;
+    public String updateCustomer(CustomerRequestDto dto, String Id) throws ClassNotFoundException;
 
     public void deleteCustomer(String id);
 

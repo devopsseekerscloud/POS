@@ -43,22 +43,23 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponseDto findCustomer(String id) {
         Optional<Customer> data = customerRepo.findById(id);
         if(data.isPresent()){
-            Customer c= data.get();
+            CustomerDto dto = customerMapper.toCustomerDto(data.get());
             return new CustomerResponseDto(
-                    c.getId(),c.getName(),c.getAddress(),c.getSalary()
+                    dto.getId(),dto.getName(),dto.getAddress(),dto.getSalary()
             );
         }
         return null;
     }
 
     @Override
-    public void updateCustomer(CustomerRequestDto dto, String id) throws ClassNotFoundException {
+    public String updateCustomer(CustomerRequestDto dto, String id) throws ClassNotFoundException {
         Optional<Customer> customerRecord = customerRepo.findById(id);
         if (customerRecord.isPresent()){
             Customer customer = customerRecord.get();
             customer.setName(dto.getName());
             customer.setAddress(dto.getAddress());
             customer.setSalary(dto.getSalary());
+            return customerRepo.save(customer).getId();
         }else{
             throw new ClassNotFoundException();
         }

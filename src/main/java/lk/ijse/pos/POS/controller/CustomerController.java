@@ -41,9 +41,8 @@ public class CustomerController {
     public ResponseEntity<StandardResponse> updateCustomer(
             @RequestParam String id,
             @RequestBody CustomerRequestDto dto) throws ClassNotFoundException {
-        customerService.updateCustomer(dto, id);
         return new ResponseEntity<>(
-                new StandardResponse(201, "Customer Updated !",null),
+                new StandardResponse(201, "Customer Updated !",customerService.updateCustomer(dto, id)),
                 HttpStatus.CREATED
         );
     }
