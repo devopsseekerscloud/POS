@@ -1,5 +1,6 @@
 package lk.ijse.pos.POS.service.impl;
 
+import lk.ijse.pos.POS.dto.CustomerDto;
 import lk.ijse.pos.POS.dto.request.CustomerRequestDto;
 import lk.ijse.pos.POS.dto.response.CustomerResponseDto;
 import lk.ijse.pos.POS.entity.Customer;
@@ -7,6 +8,7 @@ import lk.ijse.pos.POS.repo.CustomerRepo;
 import lk.ijse.pos.POS.service.CustomerService;
 import lk.ijse.pos.POS.util.GeneratedIdentificationDto;
 import lk.ijse.pos.POS.util.Generator;
+import lk.ijse.pos.POS.util.mapper.CustomerMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,18 +21,22 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepo customerRepo;
     private final Generator generator;
 
-    public CustomerServiceImpl(CustomerRepo customerRepo, Generator generator) {
+    private final CustomerMapper customerMapper;
+
+    public CustomerServiceImpl(CustomerRepo customerRepo, Generator generator, CustomerMapper customerMapper) {
         this.customerRepo = customerRepo;
         this.generator = generator;
+        this.customerMapper = customerMapper;
     }
 
 
     @Override
-    public void saveCustomer(CustomerRequestDto dto) {
+    public String saveCustomer(CustomerRequestDto dto) {
         GeneratedIdentificationDto idSet= generator.createId();
-        Customer c1= new Customer(
+        CustomerDto c1= new CustomerDto(
                 idSet.getPrefix()+"-C-"+idSet.getId(),dto.getName(),dto.getAddress(),dto.getSalary());
-        customerRepo.save(c1);
+
+        return customerRepo.save(customerMapper.toCustomer(c1)).getId();
     }
 
     @Override

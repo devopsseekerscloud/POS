@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public interface CustomerService {
-    public void saveCustomer(CustomerRequestDto dto);
+    public String saveCustomer(CustomerRequestDto dto);
 
     public CustomerResponseDto findCustomer(String id);
 

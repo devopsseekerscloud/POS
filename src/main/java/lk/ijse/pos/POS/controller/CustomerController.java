@@ -21,9 +21,9 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<StandardResponse> saveCustomer(@RequestBody CustomerRequestDto dto) {
-        customerService.saveCustomer(dto);
         return new ResponseEntity<>(
-                new StandardResponse(201, "Customer Saved !",null),
+                new StandardResponse(201, "Customer Saved !",
+                        customerService.saveCustomer(dto)),
                 HttpStatus.CREATED
         );
     }
