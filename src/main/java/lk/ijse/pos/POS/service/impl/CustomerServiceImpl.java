@@ -1,6 +1,7 @@
 package lk.ijse.pos.POS.service.impl;
 
 import lk.ijse.pos.POS.dto.CustomerDto;
+import lk.ijse.pos.POS.dto.paginate.PaginatedResponseCustomerDto;
 import lk.ijse.pos.POS.dto.request.CustomerRequestDto;
 import lk.ijse.pos.POS.dto.response.CustomerResponseDto;
 import lk.ijse.pos.POS.entity.Customer;
@@ -9,6 +10,7 @@ import lk.ijse.pos.POS.service.CustomerService;
 import lk.ijse.pos.POS.util.GeneratedIdentificationDto;
 import lk.ijse.pos.POS.util.Generator;
 import lk.ijse.pos.POS.util.mapper.CustomerMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -72,13 +74,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerResponseDto> listAllCustomers() {
-        List<CustomerResponseDto> list= new ArrayList<>();
-        for (Customer c:customerRepo.findAll()
-             ) {
-            list.add(new CustomerResponseDto
-                    (c.getId(),c.getName(),c.getAddress(),c.getSalary()));
-        }
-        return list;
+    public PaginatedResponseCustomerDto listAllCustomers(
+            String searchText,int page, int size
+    ) {
+return new PaginatedResponseCustomerDto(
+        customerMapper.toCustomerResponseDto(customerRepo.getAllCustomers(
+                searchText, PageRequest.of(page, size)
+        )), customerRepo.getAllCustomersCount(searchText));
+
     }
 }

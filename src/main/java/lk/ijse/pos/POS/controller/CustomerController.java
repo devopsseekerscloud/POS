@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Max;
 import java.util.List;
 
 @RestController
@@ -42,7 +43,7 @@ public class CustomerController {
             @RequestParam String id,
             @RequestBody CustomerRequestDto dto) throws ClassNotFoundException {
         return new ResponseEntity<>(
-                new StandardResponse(201, "Customer Updated !",customerService.updateCustomer(dto, id)),
+                new StandardResponse(201, "Customer Updated !", customerService.updateCustomer(dto, id)),
                 HttpStatus.CREATED
         );
     }
@@ -57,11 +58,16 @@ public class CustomerController {
         );
     }
 
-    @GetMapping(path = "/list")
-    public ResponseEntity<StandardResponse> listAllCustomers() {
+    @GetMapping(path = "/list", params = {"searchText", "page", "size"})
+    public ResponseEntity<StandardResponse> listAllCustomers(
+            @RequestParam(value = "searchText") String searchText,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") @Max(50) int size
+    ) {
         return new ResponseEntity<>(
                 new StandardResponse(200, "Customer List !",
-                        customerService.listAllCustomers()),
+                        customerService.listAllCustomers(
+                                searchText, page, size)),
                 HttpStatus.OK
         );
     }

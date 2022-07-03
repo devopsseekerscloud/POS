@@ -1,5 +1,6 @@
 package lk.ijse.pos.POS.service;
 
+import lk.ijse.pos.POS.dto.paginate.PaginatedResponseCustomerDto;
 import lk.ijse.pos.POS.dto.request.CustomerRequestDto;
 import lk.ijse.pos.POS.dto.response.CustomerResponseDto;
 import lk.ijse.pos.POS.entity.Customer;
@@ -16,5 +17,7 @@ public interface CustomerService {
 
     public void deleteCustomer(String id);
 
-    public List<CustomerResponseDto> listAllCustomers();
+    public PaginatedResponseCustomerDto listAllCustomers(
+            String searchText, int page, int size
+    );
 }
