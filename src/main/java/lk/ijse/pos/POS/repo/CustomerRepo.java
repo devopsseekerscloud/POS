@@ -13,12 +13,13 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 public interface CustomerRepo extends JpaRepository<Customer,String> {
 
-    @Query(value = "SELECT id AS id,name AS name,address AS address,salary AS salary FROM Customer WHERE name LIKE %?1% OR address LIKE %?1% ", nativeQuery = true)
+    // INNER JOIN ==> customer,order WHERE ''''
+    @Query(value = "SELECT id AS id,name AS name,address AS address,salary AS salary FROM Customer", nativeQuery = true)
     Page<CustomerDataInterface> getAllCustomers(
             String searchText, Pageable pageable
     );
 
-    @Query(value = "SELECT COUNT(id) FROM Customer WHERE name LIKE %?1% OR address LIKE %?1% ", nativeQuery = true)
+    @Query(value = "SELECT COUNT(id) FROM Customer", nativeQuery = true)
     int getAllCustomersCount(String searchText);
 
 
